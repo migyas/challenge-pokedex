@@ -30,6 +30,7 @@
     ],
     "rules": {
         "prettier/prettier": "error",
+        "@typescript-eslint/no-explicit-any": "off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
@@ -47,7 +48,9 @@
     },
     "settings": {
         "import/resolver": {
-          "typescript": {}
+          "typescript": {
+              "alwaysTryTypes": "true"
+            }
         }
     }
 }
