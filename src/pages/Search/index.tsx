@@ -1,58 +1,122 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Typography,
     AutoComplete,
     Input,
     Space,
-    // Upload,
-    // message,
-    // Button,
+    Select,
+    Button,
+    Divider,
 } from 'antd';
 import 'antd/dist/antd.css';
 
 import Grid from '../../components/Grid';
-import Header from '../../components/Header';
 import CardItem from '../../components/CardItem';
-// import backgroundPoke from '../../assets/pokemon.svg';
+import * as S from './styled';
+import Layout from '../../components/Layout';
+import api from '../../service/api';
 
+interface PropsPokemon {
+    id: number;
+    name: string;
+    sprites: {
+        front_default: string;
+    };
+}
 const Search: React.FC = () => {
+    const [pokemons, setPokemons] = useState<PropsPokemon[]>([]);
+    // const [searchTerm, setSearchTerm] = useState('');
+
+    const { Option } = AutoComplete;
+
     const { Title, Text } = Typography;
 
-    // function handleUpload(info: any) {
-    //     if (info.file.status !== 'uploading') {
-    //         console.log(info.file, info.fileList);
-    //     }
-    //     if (info.file.status === 'done') {
-    //         message.success(`${info.file.name} file uploaded successfully`);
-    //     } else if (info.file.status === 'error') {
-    //         message.error(`${info.file.name} file upload failed.`);
-    //     }
+    async function getPokemons() {
+        const response = await api.get('/pokemon-form/?offset=0&limit=300');
+        const pokemons = response.data.results;
+
+        const pokemonsData = [];
+
+        for (const pokemon of pokemons) {
+            const responseData = await api.get(`/pokemon-form/${pokemon.name}`);
+            pokemonsData.push(responseData.data);
+        }
+        console.log(pokemonsData);
+        setPokemons(pokemonsData);
+    }
+
+    useEffect(() => {
+        getPokemons();
+    }, []);
+
+    // useEffect(() => {
+    //     api.get('pokemon').then(response => {
+    //         const responseData = response.data;
+    //         console.log(responseData);
+
+    //         setPokemonsAutoComplete(responseData.results);
+    //     });
+    // }, []);
+
+    // const pokeItem = useSelector(state => state);
+
+    // console.log(pokeItem);
+
+    // async function getPokemonsAutoComplete(): Promise<any> {
+    //     const response = await api.get('/pokemon/?limit=1050');
+    //     const pokemons = response.data.results;
+
+    //     // console.log(pokemons);
+    //     setPokemonsAutoComplete(pokemons);
     // }
+
+    // useEffect(() => {
+    //     getPokemonsAutoComplete();
+    //     getPokemons();
+    //     searchPokemon(options);
+    // }, [options]);
 
     return (
         <>
-            <Header />
             <Grid>
-                <Space direction="vertical">
-                    <Title>Pokédex</Title>
-                    <Space size="large" direction="vertical">
-                        <Text>
-                            Search for Pokémon by name or using the National
-                            Pokédex number
-                        </Text>
-                        <AutoComplete
-                          style={{ width: 280, marginBottom: '3rem' }}
-                        >
-                            <Input.Search size="large" enterButton />
-                        </AutoComplete>
-                    </Space>
-                </Space>
+                <Layout>
+                    <S.BackgroundPoke />
+                    <Button type="primary">My Pokédex</Button>
 
-                <CardItem>
-                    {/* <Upload onChange={handleUpload}>
-                        <Button>Click to upload</Button>
-                    </Upload> */}
-                </CardItem>
+                    <S.Header>
+                        <Title>List of Pokemons</Title>
+
+                        <Text>Search for Pokémon by name</Text>
+                    </S.Header>
+
+                    <Select
+                        showSearch
+                        style={{
+                            width: 280,
+                            height: '100vh',
+                        }}
+                        optionFilterProp="children"
+                    >
+                        {pokemons.map(e => (
+                            <Option
+                                style={{
+                                    textTransform: 'capitalize',
+                                    fontSize: '1.65rem',
+                                    fontWeight: 'bold',
+                                }}
+                                key={e.id}
+                                value={e.name}
+                            >
+                                {e.name}
+
+                                <img
+                                    style={{ marginLeft: '6rem' }}
+                                    src={e.sprites.front_default}
+                                />
+                            </Option>
+                        ))}
+                    </Select>
+                </Layout>
             </Grid>
         </>
     );

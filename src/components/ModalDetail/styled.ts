@@ -3,7 +3,8 @@ import styled, {css} from 'styled-components'
 import pokemonImage from '../../assets/kakuna.svg';
 
 interface PropsModal {
-    open: boolean;
+    open?: boolean;
+    pokemonImage?: any;
 }
 
 export const ContainerModal = styled.div<PropsModal>`
@@ -13,7 +14,7 @@ export const ContainerModal = styled.div<PropsModal>`
     top: 0;
     right: 0;
     z-index: 9999;
-    background: #8CB230 ;
+    background: #8CB230;
     opacity: 1;
     overflow-y: auto;
     display: flex;
@@ -21,7 +22,6 @@ export const ContainerModal = styled.div<PropsModal>`
     align-content: flex-start;
 
     header {
-        padding: 2rem;
         padding-top: 6rem;
         padding-bottom: 6rem;
         justify-content: baseline;
@@ -34,7 +34,7 @@ export const ContainerModal = styled.div<PropsModal>`
 
     section {
         background-color: #ffffff;
-        padding: 1rem;
+        padding: 1.5rem;
         border-top-left-radius: 25px;
         border-top-right-radius: 25px;
     }
@@ -86,14 +86,16 @@ ${({ open }) =>
 
 `;
 
-export const PokemonImage = styled.div`
+export const PokemonImage = styled.div<PropsModal>`
     position: absolute;
-    width: 10rem;
+    width: 100%;
     height: 13rem;
     top: 5rem;
     left: 2rem;
-    background-image: url(${pokemonImage});
+    ${({pokemonImage}) => pokemonImage ? css`
+  background-image: url(${pokemonImage})`
+  : ''};
     background-size: contain;
     background-repeat: no-repeat;
-    z-index: 99;
+    z-index: -99;
 `;

@@ -1,9 +1,13 @@
-import styled from 'styled-components';
-import pokemonImage from '../../assets/kakuna.svg';
+import styled, {css} from 'styled-components';
+// import pokemonImage from '../../assets/kakuna.svg';
 import backgroundPoke from '../../assets/main-background.svg';
 
 interface PropsModal {
     open: boolean;
+}
+
+interface PropsImage {
+    pokemonImage?: string;
 }
 
 export const CardItemContainer = styled.section`
@@ -13,7 +17,8 @@ export const CardItemContainer = styled.section`
 
 export const CardTags = styled.div``;
 
-export const ContainerModal = styled.div<PropsModal>``;
+export const ContainerModal = styled.div<PropsModal>`
+`;
 
 export const CardBackground = styled.div`
     position: absolute;
@@ -22,19 +27,22 @@ export const CardBackground = styled.div`
     top: 0rem;
     right: .59rem;
     background-image: url(${backgroundPoke});
-    background-color: rgba();
     background-size: cover;
     background-repeat: no-repeat;
     opacity: 0.025;
+
 `;
 
-export const CardPokemonImage = styled.div`
+export const CardPokemonImage = styled.div<PropsImage>`
     position: absolute;
     width: 10rem;
     height: 100%;
     top: -1.5rem;
     right: 0rem;
-    background-image: url(${pokemonImage});
+
+  ${({pokemonImage}) => pokemonImage ? css`
+  background-image: url(${pokemonImage})`
+  : ''};
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 99;
