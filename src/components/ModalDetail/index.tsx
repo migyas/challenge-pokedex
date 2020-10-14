@@ -239,43 +239,6 @@ const ModalDetail: React.FC<PropsModal> = ({
                         plain
                     />
 
-                    {/* <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <Paragraph>Estatísticas de velocidade</Paragraph>
-                        <p>14</p>
-                    </div>
-                    <Divider
-                        style={{ margin: '0', marginBottom: '1rem' }}
-                        plain
-                    />
-
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <Paragraph>Defense</Paragraph>
-                        <p>14</p>
-                    </div>
-                    <Divider
-                        style={{ margin: '0', marginBottom: '1rem' }}
-                        plain
-                    />
-
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <Paragraph>Atack</Paragraph>
-                        <p>30</p>
-                    </div> */}
                     <Divider
                         style={{ margin: '0', marginBottom: '1rem' }}
                         plain

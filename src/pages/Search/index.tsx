@@ -9,12 +9,17 @@ import {
     Divider,
 } from 'antd';
 import 'antd/dist/antd.css';
+import _ from 'lodash';
 
 import Grid from '../../components/Grid';
-import CardItem from '../../components/CardItem';
 import * as S from './styled';
 import Layout from '../../components/Layout';
+import { Link } from 'react-router-dom';
 import api from '../../service/api';
+import CardItem from '../../components/CardItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { IPokemonList, IPokemonState } from '../../store/modules/types';
+import { GetPokemon } from '../../store/modules/pokedex/action';
 
 interface PropsPokemon {
     id: number;
@@ -23,99 +28,107 @@ interface PropsPokemon {
         front_default: string;
     };
 }
-const Search: React.FC = () => {
-    const [pokemons, setPokemons] = useState<PropsPokemon[]>([]);
-    // const [searchTerm, setSearchTerm] = useState('');
 
-    const { Option } = AutoComplete;
+const Search: React.FC = (props: any) => {
+    const [pokemon, setPokemon] = useState<any>('pikachu');
+    const [erroPoke, setErroPoke] = useState('');
+    const [pokemonData, setPokemonData] = useState<any[]>([]);
+    const [pokemonType, setPokemonType] = useState([]);
+    const [showPokemon, setShowPokemon] = useState(false);
+    const pokemonName = props.match.params.pokemon;
 
+    const { Search } = Input;
     const { Title, Text } = Typography;
 
-    async function getPokemons() {
-        const response = await api.get('/pokemon-form/?offset=0&limit=300');
-        const pokemons = response.data.results;
+    const dispacth = useDispatch();
+    const pokemonDetail = useSelector<IPokemonState, IPokemonList[]>(
+        state => state.data,
+    );
 
-        const pokemonsData = [];
-
-        for (const pokemon of pokemons) {
-            const responseData = await api.get(`/pokemon-form/${pokemon.name}`);
-            pokemonsData.push(responseData.data);
-        }
-        console.log(pokemonsData);
-        setPokemons(pokemonsData);
-    }
+    console.log(pokemonDetail);
 
     useEffect(() => {
-        getPokemons();
-    }, []);
+        dispacth(GetPokemon(pokemon));
+    }, [pokemon]);
 
-    // useEffect(() => {
-    //     api.get('pokemon').then(response => {
-    //         const responseData = response.data;
-    //         console.log(responseData);
+    const getPokemon = async () => {
+        const toList = [];
 
-    //         setPokemonsAutoComplete(responseData.results);
-    //     });
-    // }, []);
+        try {
+            const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+            const response = await api.get(url);
+            toList.push(response.data);
+            setPokemonType(response.data.types);
+            setPokemonData(toList);
+        } catch (e) {
+            setErroPoke(e.name);
+        }
+    };
 
-    // const pokeItem = useSelector(state => state);
+    const handleChange = (e: any) => {
+        setPokemon(e.target.value.toLowerCase());
+    };
 
-    // console.log(pokeItem);
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
 
-    // async function getPokemonsAutoComplete(): Promise<any> {
-    //     const response = await api.get('/pokemon/?limit=1050');
-    //     const pokemons = response.data.results;
+        getPokemon();
+        setShowPokemon(true);
+    };
 
-    //     // console.log(pokemons);
-    //     setPokemonsAutoComplete(pokemons);
-    // }
+    const showData = () => {
+        if (!_.isEmpty(pokemonDetail[pokemon])) {
+            const pokeData = pokemonDetail[pokemon];
 
-    // useEffect(() => {
-    //     getPokemonsAutoComplete();
-    //     getPokemons();
-    //     searchPokemon(options);
-    // }, [options]);
+            console.log(pokeData);
+
+            return (
+                <div
+                    style={{
+                        backgroundColor: 'black',
+                        width: '280',
+                        height: '100',
+                    }}
+                >
+                    <h1>OLA</h1>
+                </div>
+            );
+        }
+    };
 
     return (
         <>
             <Grid>
                 <Layout>
-                    <S.BackgroundPoke />
-                    <Button type="primary">My Pokédex</Button>
-
+                    <Link to={'/pokedex'}>
+                        <Button type="primary">My Pokédex</Button>
+                    </Link>
                     <S.Header>
                         <Title>List of Pokemons</Title>
 
-                        <Text>Search for Pokémon by name</Text>
+                        <Text>
+                            Search for Pokémon by name or National Pokémon
+                            Number
+                        </Text>
                     </S.Header>
+                    <S.Form onSubmit={handleSubmit}>
+                        <Search
+                            type="text"
+                            placeholder="Type a name or national number pokémon"
+                            onChange={handleChange}
+                        />
+                    </S.Form>
 
-                    <Select
-                        showSearch
-                        style={{
-                            width: 280,
-                            height: '100vh',
-                        }}
-                        optionFilterProp="children"
-                    >
-                        {pokemons.map(e => (
-                            <Option
-                                style={{
-                                    textTransform: 'capitalize',
-                                    fontSize: '1.65rem',
-                                    fontWeight: 'bold',
-                                }}
-                                key={e.id}
-                                value={e.name}
-                            >
-                                {e.name}
+                    {showPokemon && showData()}
 
-                                <img
-                                    style={{ marginLeft: '6rem' }}
-                                    src={e.sprites.front_default}
-                                />
-                            </Option>
-                        ))}
-                    </Select>
+                    {showPokemon && pokemon ? (
+                        <CardItem
+                            pokemonData={pokemonData}
+                            pokemonType={pokemonType}
+                        />
+                    ) : (
+                        ''
+                    )}
                 </Layout>
             </Grid>
         </>

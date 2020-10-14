@@ -1,13 +1,13 @@
 import styled, {css} from 'styled-components';
-// import pokemonImage from '../../assets/kakuna.svg';
+import pokemonImage from '../../assets/kakuna.svg';
 import backgroundPoke from '../../assets/main-background.svg';
 
 interface PropsModal {
-    open: boolean;
+    open?: boolean;
 }
 
 interface PropsImage {
-    pokemonImage?: string;
+    pokemonImage?: any;
 }
 
 export const CardItemContainer = styled.section`
