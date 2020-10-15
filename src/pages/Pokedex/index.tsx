@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -6,8 +6,7 @@ import Layout from '../../components/Layout';
 import Grid from '../../components/Grid';
 import CardItem from '../../components/CardItem';
 
-
-const Pokedex: React.FC = () => {
+const Pokedex: React.FC = (props: any) => {
     return (
         <Grid>
             <Layout>

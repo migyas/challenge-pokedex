@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-    Typography,
-    AutoComplete,
-    Input,
-    Space,
-    Select,
-    Button,
-    Divider,
-} from 'antd';
+import React, { useState } from 'react';
+import { Typography, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import _ from 'lodash';
 
@@ -17,9 +9,6 @@ import Layout from '../../components/Layout';
 import { Link } from 'react-router-dom';
 import api from '../../service/api';
 import CardItem from '../../components/CardItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { IPokemonList, IPokemonState } from '../../store/modules/types';
-import { GetPokemon } from '../../store/modules/pokedex/action';
 
 interface PropsPokemon {
     id: number;
@@ -31,25 +20,13 @@ interface PropsPokemon {
 
 const Search: React.FC = (props: any) => {
     const [pokemon, setPokemon] = useState<any>('pikachu');
-    const [erroPoke, setErroPoke] = useState('');
     const [pokemonData, setPokemonData] = useState<any[]>([]);
     const [pokemonType, setPokemonType] = useState([]);
+    const [pokemonName, setPokemonName] = useState([]);
     const [showPokemon, setShowPokemon] = useState(false);
-    const pokemonName = props.match.params.pokemon;
 
     const { Search } = Input;
     const { Title, Text } = Typography;
-
-    const dispacth = useDispatch();
-    const pokemonDetail = useSelector<IPokemonState, IPokemonList[]>(
-        state => state.data,
-    );
-
-    console.log(pokemonDetail);
-
-    useEffect(() => {
-        dispacth(GetPokemon(pokemon));
-    }, [pokemon]);
 
     const getPokemon = async () => {
         const toList = [];
@@ -59,10 +36,9 @@ const Search: React.FC = (props: any) => {
             const response = await api.get(url);
             toList.push(response.data);
             setPokemonType(response.data.types);
+            setPokemonName(response.data.name);
             setPokemonData(toList);
-        } catch (e) {
-            setErroPoke(e.name);
-        }
+        } catch (e) {}
     };
 
     const handleChange = (e: any) => {
@@ -76,26 +52,6 @@ const Search: React.FC = (props: any) => {
         setShowPokemon(true);
     };
 
-    const showData = () => {
-        if (!_.isEmpty(pokemonDetail[pokemon])) {
-            const pokeData = pokemonDetail[pokemon];
-
-            console.log(pokeData);
-
-            return (
-                <div
-                    style={{
-                        backgroundColor: 'black',
-                        width: '280',
-                        height: '100',
-                    }}
-                >
-                    <h1>OLA</h1>
-                </div>
-            );
-        }
-    };
-
     return (
         <>
             <Grid>
@@ -104,7 +60,7 @@ const Search: React.FC = (props: any) => {
                         <Button type="primary">My Pokédex</Button>
                     </Link>
                     <S.Header>
-                        <Title>List of Pokemons</Title>
+                        <Title>Pokédex</Title>
 
                         <Text>
                             Search for Pokémon by name or National Pokémon
@@ -119,13 +75,13 @@ const Search: React.FC = (props: any) => {
                         />
                     </S.Form>
 
-                    {showPokemon && showData()}
-
                     {showPokemon && pokemon ? (
-                        <CardItem
-                            pokemonData={pokemonData}
-                            pokemonType={pokemonType}
-                        />
+                        <Link to={`/pokemon/${pokemonName}`}>
+                            <CardItem
+                                pokemonData={pokemonData}
+                                pokemonType={pokemonType}
+                            />
+                        </Link>
                     ) : (
                         ''
                     )}

@@ -4,7 +4,7 @@ import { IPokemonState, IPokemonList } from '../types';
 
 const INITIAL_STATE: IPokemonState = {
     loading: false,
-    pokedex: [],
+    data: [],
     errorMsg: '',
 }
 

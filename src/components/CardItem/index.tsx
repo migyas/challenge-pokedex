@@ -43,10 +43,6 @@ const CardItem: React.FC<PropsCardItem> = ({ pokemonData, pokemonType }) => {
         <>
             {pokemonData && (
                 <>
-                    <S.ContainerModal>
-                        {/* <ModalDetail refNode={node} /> */}
-                    </S.ContainerModal>
-
                     <Card
                         style={{
                             width: '100%',
