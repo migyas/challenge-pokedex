@@ -12,6 +12,11 @@ export interface PropsEffect {
 }
 
 export interface IPokemonList {
+    payload: [
+        {
+            pokemon: [];
+        }
+    ];
     data: IStateList[];
     name: string;
     id: number;
@@ -52,6 +57,7 @@ export interface IPokemonState {
     data: IPokemonList[];
     loading: boolean;
     errorMsg: string;
+    pokemon?: any[];
 }
 
 export interface IState {

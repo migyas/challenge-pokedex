@@ -11,4 +11,10 @@ export const Content = styled.div`
         padding: 0 2rem;
         margin: 0 auto;
     `}
+
+    ${media.greaterThan('huge')`
+        max-width: 76rem;
+        padding: 0 2rem;
+        margin: 0 auto;
+    `}
 `;

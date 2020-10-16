@@ -1,37 +1,27 @@
 import { Reducer } from 'redux';
-import produce from 'immer';
-import { IPokemonState } from '../types';
 
-const INITIAL_STATE: IPokemonState = {
+const INITIAL_STATE = {
     loading: false,
     data: [],
     errorMsg: '',
+    pokemon: []
 }
 
-const pokedex: Reducer<IPokemonState> = (state = INITIAL_STATE, action) => {
-    console.log(state, action)
+const pokedex: Reducer = (state = INITIAL_STATE, action) => {
 
-    return produce(state, draft => {
-        switch (action.type) {
-            case "ADD_POKEMON_TO_POKEDEX_SUCCESS": {
-                const { data } = action.payload;
+    switch (action.type) {
+        case "ADD_POKEMON_TO_POKEDEX_SUCCESS": {
+            const { pokemon } = action.payload;
 
-                const pokemonInPokedexIndex = draft.data.findIndex(item =>
-                    item.id == data.id);
-
-                if (pokemonInPokedexIndex >= 0) {
-                    draft.data[pokemonInPokedexIndex].id;
-                } else {
-                    console.log(draft.data);
-                }
-                break;
-            }
-            case "ADD_POKEMON_TO_POKEDEX_FAILURE": {
-                draft.errorMsg;
-                break;
-            }
+            return {
+                ...state,
+                pokemon: state.pokemon.concat(pokemon)
+            };
         }
-    })
+        default: {
+            return state;
+        }
+    }
 }
 
 export default pokedex;

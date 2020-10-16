@@ -12,11 +12,13 @@ interface PropsModal {
 
 export const Header = styled.header`
     z-index: 1500;
-    padding-top: 12rem;
+    padding-top: 1rem;
     padding-bottom: 6rem;
     justify-content: flex-end;
     text-align: center;
-
+    max-width: 65rem;
+    width: 100%;
+    margin: 0 auto;
     h1 {
         color: #ffffff;
     }
@@ -24,12 +26,11 @@ export const Header = styled.header`
 
 export const ContainerModal = styled.div<PropsModal>`
     width: 100%;
-    height: 100%;
-    background: #8CB230;
+    height: 100vh;
+    background: #EA5D60;
     z-index: 1000;
     opacity: 1;
     align-content: flex-start;
-    transition: transform 0.3s ease-in-out;
 
     section {
         background-color: #ffffff;
@@ -46,11 +47,12 @@ export const ButtonClose = styled(Link)`
     cursor: pointer;
 
   svg {
-    color: #EA5D60;
+    color: #222222;
   }
 `;
 
 export const TitleDiv = styled(Title)`
+    margin: 1rem 0 !important;
     text-transform: capitalize;
     text-Shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
@@ -59,7 +61,7 @@ export const SectionDiv = styled.section`
     text-align: start;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     max-width: 65rem;
     margin: 0 auto;
@@ -92,22 +94,14 @@ export const StatP = styled.p`
     font-weight: bold;
 `;
 
-
 export const PokemonImage = styled.div<PropsModal>`
-    position: absolute;
     width: 100%;
     width: 20rem;
     height: 13rem;
-    top: 7rem;
-    left: 1.5rem;
+    margin: 0 auto;
     ${({ pokemonImage }) => pokemonImage ? css`
         background-image: url(${pokemonImage})`
         : ''};
     background-size: contain;
     background-repeat: no-repeat;
-    z-index: 1450;
-
-    ${media.greaterThan('medium')`
-        lef
-    `}
 `;

@@ -1,19 +1,22 @@
 import React from 'react';
+import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import GlobalStyles from './styles/global';
 import Routes from './routes';
-import store from './store';
+import { store, persistor } from './store';
 
 const App: React.FC = () => (
     <>
         <BrowserRouter>
             <Provider store={store}>
-                <Routes />
+                <PersistGate persistor={persistor}>
+                    <Routes />
+                    <GlobalStyles />
+                </PersistGate>
             </Provider>
         </BrowserRouter>
-        <GlobalStyles />
     </>
 );
 

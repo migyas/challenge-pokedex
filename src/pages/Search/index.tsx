@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Input, Button } from 'antd';
+import { Typography, Input, Button, Card } from 'antd';
 import 'antd/dist/antd.css';
 import _ from 'lodash';
 
@@ -9,6 +9,10 @@ import Layout from '../../components/Layout';
 import { Link } from 'react-router-dom';
 import api from '../../service/api';
 import CardItem from '../../components/CardItem';
+import Pokedex from '../Pokedex';
+import { useSelector } from 'react-redux';
+import { IPokemonState, IState } from '../../store/modules/types';
+import { CardBackground } from '../../components/CardItem/styled';
 
 interface PropsPokemon {
     id: number;
@@ -74,14 +78,11 @@ const Search: React.FC = () => {
                             onChange={handleChange}
                         />
                     </S.Form>
-
                     {showPokemon && pokemon ? (
-                        <Link to={`/pokemon/${pokemonName}`}>
-                            <CardItem
-                                pokemonData={pokemonData}
-                                pokemonType={pokemonType}
-                            />
-                        </Link>
+                        <CardItem
+                            pokemonData={pokemonData}
+                            pokemonType={pokemonType}
+                        />
                     ) : (
                         ''
                     )}

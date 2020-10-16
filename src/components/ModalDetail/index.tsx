@@ -50,16 +50,16 @@ const ModalDetail: React.FC = (props: any) => {
                 <>
                     <S.ContainerModal>
                         <S.Header>
-                            <Text strong>#{pokeData.id}</Text>
-                            <S.TitleDiv>{pokeData.name}</S.TitleDiv>
                             <S.PokemonImage
                                 pokemonImage={
                                     pokeData!.sprites!.other!.dream_world
                                         .front_default
                                 }
                             />
+                            <Text strong>#{pokeData.id}</Text>
+                            <S.TitleDiv>{pokeData.name}</S.TitleDiv>
                             {pokeData.types!.map(e => (
-                                <Tag color="cyan">{e.type!.name}</Tag>
+                                <Tag color="magenta">{e.type!.name}</Tag>
                             ))}
                         </S.Header>
 
