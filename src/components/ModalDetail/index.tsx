@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
-import { Tag, Typography, Divider, Menu, Dropdown } from 'antd';
+import React, { useEffect } from 'react';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Tag, Typography, Divider } from 'antd';
 
 import * as S from './styled';
-import api from '../../service/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { IPokemonState, IState, PropsEffect } from '../../store/modules/types';
-import { GetPokemon } from '../../store/modules/pokedex/action';
+import { IPokemonState, IState } from '../../store/modules/types';
+import { GetPokemon } from '../../store/modules/search/action';
 
 const ModalDetail: React.FC = (props: any) => {
     const { Title, Text, Paragraph } = Typography;
-    // const [ability, setAbility] = useState<PropsEffect[]>([]);
 
     const dispacth = useDispatch();
     const pokemonDetail = useSelector<IState, IPokemonState>(
-        state => state.pokedex,
+        state => state.search,
     );
 
     const pokemonName = props.match.params.pokemon;
@@ -43,7 +41,7 @@ const ModalDetail: React.FC = (props: any) => {
 
     return (
         <>
-            <S.ButtonClose>
+            <S.ButtonClose to={'/'}>
                 <ArrowLeftOutlined />
             </S.ButtonClose>
 
@@ -53,15 +51,7 @@ const ModalDetail: React.FC = (props: any) => {
                     <S.ContainerModal>
                         <S.Header>
                             <Text strong>#{pokeData.id}</Text>
-                            <Title
-                                style={{
-                                    textTransform: 'capitalize',
-                                    textShadow:
-                                        '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
-                                }}
-                            >
-                                {pokeData.name}
-                            </Title>
+                            <S.TitleDiv>{pokeData.name}</S.TitleDiv>
                             <S.PokemonImage
                                 pokemonImage={
                                     pokeData!.sprites!.other!.dream_world
@@ -73,47 +63,24 @@ const ModalDetail: React.FC = (props: any) => {
                             ))}
                         </S.Header>
 
-                        <section
-                            style={{
-                                textAlign: 'start',
-                                display: 'flex',
-                                flexDirection: 'column',
-                            }}
-                        >
+                        <S.SectionDiv>
                             <h2 style={{ textAlign: 'center' }}>Stats</h2>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                }}
-                            >
+                            <S.DivStatus style={{}}>
                                 {pokeData!.stats!.map(e => (
                                     <>
-                                        <div
-                                            style={{
-                                                padding: '1rem',
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                            }}
-                                        >
-                                            <Paragraph
+                                        <S.DivStatusItem>
+                                            <S.DivParagraph
                                                 strong
                                                 style={{
                                                     textTransform: 'uppercase',
                                                 }}
                                             >
                                                 {e.stat.name}
-                                            </Paragraph>
-                                            <p
-                                                style={{
-                                                    fontSize: '1.5rem',
-                                                    fontWeight: 'bold',
-                                                }}
-                                            >
+                                            </S.DivParagraph>
+                                            <S.StatP style={{}}>
                                                 {e.base_stat}
-                                            </p>
-                                        </div>
+                                            </S.StatP>
+                                        </S.DivStatusItem>
                                         <Divider
                                             style={{
                                                 margin: '0',
@@ -123,91 +90,46 @@ const ModalDetail: React.FC = (props: any) => {
                                         />
                                     </>
                                 ))}
-                            </div>
+                            </S.DivStatus>
 
-                            <div
-                                style={{
-                                    padding: '1rem',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                }}
-                            >
-                                <Paragraph
+                            <S.ItemStat style={{}}>
+                                <S.DivParagraph
                                     strong
                                     style={{ textTransform: 'uppercase' }}
                                 >
                                     Weight
-                                </Paragraph>
-                                <p
-                                    style={{
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    {pokeData.weight}
-                                </p>
-                            </div>
+                                </S.DivParagraph>
+                                <S.StatP>{pokeData.weight}</S.StatP>
+                            </S.ItemStat>
                             <Divider
                                 style={{ margin: '0', marginBottom: '1rem' }}
                                 plain
                             />
 
-                            <div
-                                style={{
-                                    padding: '1rem',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                }}
-                            >
-                                <Paragraph
-                                    strong
-                                    style={{ textTransform: 'uppercase' }}
-                                >
-                                    Height
-                                </Paragraph>
-                                <p
-                                    style={{
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    {pokeData.height}
-                                </p>
-                            </div>
+                            <S.ItemStat>
+                                <S.DivParagraph strong>Height</S.DivParagraph>
+                                <S.StatP>{pokeData.height}</S.StatP>
+                            </S.ItemStat>
                             <Divider
                                 style={{ margin: '0', marginBottom: '1rem' }}
                                 plain
                             />
 
-                            <div>
-                                <Paragraph
-                                    strong
-                                    style={{ textTransform: 'uppercase' }}
-                                >
+                            <S.ItemStat style={{ flexDirection: 'column' }}>
+                                <S.DivParagraph strong>
                                     Lista de Habilidades
-                                </Paragraph>
-                                <Paragraph>
+                                </S.DivParagraph>
+                                <S.DivParagraph>
                                     {pokeData.abilities.map(e => (
-                                        <Tag>{e.ability.name}</Tag>
+                                        <Tag color="red">{e.ability.name}</Tag>
                                     ))}
-                                </Paragraph>
-                            </div>
+                                </S.DivParagraph>
+                            </S.ItemStat>
                             <Divider
                                 style={{ margin: '0', marginBottom: '1rem' }}
                                 plain
                             />
-
-                            <Divider
-                                style={{ margin: '0', marginBottom: '1rem' }}
-                                plain
-                            />
-
-                            <div>
-                                <Paragraph>
-                                    Cada passo de sua evolução
-                                </Paragraph>
-                            </div>
-                        </section>
+                        </S.SectionDiv>
                     </S.ContainerModal>
                 </>
             )}

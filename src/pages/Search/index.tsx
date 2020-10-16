@@ -18,7 +18,7 @@ interface PropsPokemon {
     };
 }
 
-const Search: React.FC = (props: any) => {
+const Search: React.FC = () => {
     const [pokemon, setPokemon] = useState<any>('pikachu');
     const [pokemonData, setPokemonData] = useState<any[]>([]);
     const [pokemonType, setPokemonType] = useState([]);

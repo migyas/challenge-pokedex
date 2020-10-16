@@ -28,6 +28,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.0",
     "styled-components-modifiers": "^1.2.5",
+    "styled-media-query": "^2.1.2",
     "typescript": "~3.7.2",
     "yup": "^0.29.3"
   },

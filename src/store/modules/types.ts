@@ -1,21 +1,3 @@
-// export interface IPokemonList {
-//     results: [];
-// }
-interface PropsDetail {
-    id?: number;
-    name?: string;
-    height?: number;
-    weight?: number;
-
-    sprites?: {
-        other: {
-            dream_world: {
-                front_default: any;
-            };
-        };
-    };
-}
-
 export interface IStateList {
     payload: [];
 
@@ -74,4 +56,5 @@ export interface IPokemonState {
 
 export interface IState {
     pokedex: IPokemonState;
+    search: IPokemonState;
 }

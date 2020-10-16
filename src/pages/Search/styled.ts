@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
 export const Header = styled.header`
     margin: 2.5rem 0;

@@ -1,5 +1,8 @@
-import styled, {css} from 'styled-components';
-import pokemonImage from '../../assets/kakuna.svg';
+import styled, { css } from 'styled-components';
+import { Card, Typography } from 'antd';
+
+const { Paragraph, Title } = Typography;
+
 import backgroundPoke from '../../assets/main-background.svg';
 
 interface PropsModal {
@@ -13,6 +16,34 @@ interface PropsImage {
 export const CardItemContainer = styled.section`
     display: flex;
     flex-direction: column;
+`;
+
+export const CardContainer = styled(Card)`
+    width: 100%;
+    max-width: 35rem;
+    height: 100%;
+    height: 19.5rem;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    border-radius: 25px;
+    position: relative;
+    cursor: pointer;
+    background-color: #8BD674;
+`;
+
+export const ParagraphDiv = styled(Paragraph)`
+    margin: 0;
+    margin-top: .5rem;
+    font-weight: bold;
+`;
+
+export const TitleDiv = styled(Title)`
+    margin: 0!important;
+    padding: 0;
+    margin-bottom: .5rem;
+    color: #fff !important;
+    text-transform: capitalize;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
 
 export const CardTags = styled.div``;
@@ -40,9 +71,9 @@ export const CardPokemonImage = styled.div<PropsImage>`
     top: -1.5rem;
     right: 0rem;
 
-  ${({pokemonImage}) => pokemonImage ? css`
-  background-image: url(${pokemonImage})`
-  : ''};
+    ${({ pokemonImage }) => pokemonImage ? css`
+    background-image: url(${pokemonImage})`
+    : ''};
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 99;

@@ -1,21 +1,10 @@
-import api from '../../../service/api';
+export const AddPokemonSuccess = (pokemon: string) => {
 
-export const GetPokemon = (pokemon: string) => async (dispatch: any) => {
-    try {
-        dispatch({
-            type: "POKEMON_LOADING"
-        });
+    return {
+        type: "ADD_POKEMON_TO_POKEDEX_SUCCESS",
+        payload: {
+            pokemon
+        }
+    };
 
-        const res = await api.get(`/pokemon/${pokemon}`)
-
-        dispatch({
-            type: "POKEMON_SUCCESS",
-            payload: res.data,
-            pokemonName: pokemon
-        })
-    } catch (e) {
-        dispatch({
-            type: "POKEMON_FAIL",
-        })
-    }
 };
