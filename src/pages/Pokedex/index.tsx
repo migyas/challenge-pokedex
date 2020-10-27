@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import Layout from '../../components/Layout';
 import Grid from '../../components/Grid';
-import CardItem from '../../components/CardItem';
-import { useSelector } from 'react-redux';
-import { IState, IPokemonState } from '../../store/modules/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { RemovePokemonSuccess } from '../../store/modules/pokedex/action';
 
 const Pokedex: React.FC = () => {
     const pokedex = useSelector<any, any>(state => state.pokedex.pokemon);
+    const dispacth = useDispatch();
+    const pokeId = pokedex.map((e: any) => e.id);
+
+    const handleRemovePokemonToPokemon = useCallback((id: number) => {
+        dispacth(RemovePokemonSuccess(id));
+    }, [dispacth, pokedex]);
     return (
         <Grid>
             <Layout>
@@ -18,12 +23,23 @@ const Pokedex: React.FC = () => {
                 </Link>
 
                 <h1>My Pokédex</h1>
-                {pokedex.map((e: any) => (
+                {pokedex.map((e: any, i: any) => (
                     <>
-                        <Card key={e.id} style={{marginBottom: '2rem',backgroundColor: 'yellowgreen', borderRadius: '25px'}}>
-                            <Button type="dashed" danger>
+                        <Card
+                            key={i}
+                            style={{
+                                marginBottom: '2rem',
+                                backgroundColor: 'yellowgreen',
+                                borderRadius: '25px',
+                            }}
+                        >
+                            {/* <Button
+                                type="dashed"
+                                danger
+                                onClick={() => handleRemovePokemonToPokemon(e.id)}
+                            >
                                 Leave Pokemon
-                            </Button>
+                            </Button> */}
                             <p>#{e.id}</p>
                             <h1 style={{ textTransform: 'uppercase' }}>
                                 {e.name}

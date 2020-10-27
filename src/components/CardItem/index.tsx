@@ -67,15 +67,16 @@ const CardItem: React.FC<PropsCardItem> = ({
                     {/*  */}
 
                     <S.CardContainer>
-                        <div>
+                        <Link to={'/pokedex'}>
                             <Button
                                 size="small"
                                 type="dashed"
                                 onClick={handleAddPokemonToPokemon}
+
                             >
                                 Capture Pokémon
                             </Button>
-                        </div>
+                        </Link>
                         <S.CardItemContainer>
                             <Link to={`/pokemon/${pokemonData!.map((e: any) => e.name)}`}>
                                 <S.ParagraphDiv strong>
