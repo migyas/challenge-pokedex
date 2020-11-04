@@ -11,11 +11,11 @@ export const AddPokemonSuccess = (pokemon: PropsPokemon[]) => {
 
 };
 
-export const RemovePokemonSuccess = (pokeID: number) => {
+export const RemovePokemonSuccess = (pokeIndex: number) => {
     return {
         type: "REMOVE_POKEMON_SUCCESS",
         payload: {
-            pokeID
+            pokeIndex
         }
     };
 

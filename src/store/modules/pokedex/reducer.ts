@@ -8,6 +8,8 @@ const INITIAL_STATE = {
 
 const pokedex: Reducer = (state = INITIAL_STATE, action) => {
 
+    console.log(action.payload)
+
     switch (action.type) {
         case "ADD_POKEMON_TO_POKEDEX_SUCCESS": {
             const { pokemon } = action.payload;
@@ -18,16 +20,13 @@ const pokedex: Reducer = (state = INITIAL_STATE, action) => {
             };
         }
         case "REMOVE_POKEMON_SUCCESS": {
-            const { pokeID } = action.payload;
+            const { pokeIndex } = action.payload;
 
-            const pokeIndex = pokeID.findIndex((item: any, i: any) => item.id == i);
+            const findPokemonIndex = state.pokemon.findIndex((item: any) => item.id === pokeIndex);
 
-            console.log(pokeID)
             return {
-                pokeID:
-                    state.pokemon.slice(pokeIndex + 1),
-                // ...state.pokemon.slice(pokemon + 1)
-
+                ...state,
+                pokemon: state.pokemon.filter((e: any, i: number) => i !== findPokemonIndex)
             };
         }
         default: {

@@ -18,9 +18,9 @@ export interface PropsPokemon {
         {
             ability: {
                 name: string;
-            }
-        }
-    ]
+            };
+        },
+    ];
     sprites?: {
         other: {
             dream_world: {
@@ -50,10 +50,7 @@ interface PropsCardItem {
     pokemonType?: string[];
 }
 
-const CardItem: React.FC<PropsCardItem> = ({
-    pokemonData,
-    pokemonType,
-}) => {
+const CardItem: React.FC<PropsCardItem> = ({ pokemonData, pokemonType }) => {
     const dispacth = useDispatch();
 
     const handleAddPokemonToPokemon = useCallback(() => {
@@ -64,21 +61,22 @@ const CardItem: React.FC<PropsCardItem> = ({
         <>
             {pokemonData && (
                 <>
-                    {/*  */}
-
                     <S.CardContainer>
                         <Link to={'/pokedex'}>
                             <Button
                                 size="small"
                                 type="dashed"
                                 onClick={handleAddPokemonToPokemon}
-
                             >
                                 Capture Pokémon
                             </Button>
                         </Link>
                         <S.CardItemContainer>
-                            <Link to={`/pokemon/${pokemonData!.map((e: any) => e.name)}`}>
+                            <Link
+                                to={`/pokemon/${pokemonData!.map(
+                                    (e: any) => e.name,
+                                )}`}
+                            >
                                 <S.ParagraphDiv strong>
                                     {`# ${pokemonData!.map((e: any) => e.id)}`}
                                 </S.ParagraphDiv>

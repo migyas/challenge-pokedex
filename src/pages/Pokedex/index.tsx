@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -10,11 +10,23 @@ import { RemovePokemonSuccess } from '../../store/modules/pokedex/action';
 const Pokedex: React.FC = () => {
     const pokedex = useSelector<any, any>(state => state.pokedex.pokemon);
     const dispacth = useDispatch();
-    const pokeId = pokedex.map((e: any) => e.id);
 
-    const handleRemovePokemonToPokemon = useCallback((id: number) => {
-        dispacth(RemovePokemonSuccess(id));
-    }, [dispacth, pokedex]);
+    // const handleRemove = (id: number) => {
+    //     const findIndex = pokedex.findIndex((e: any) => e.id === id);
+
+    //     console.log(findIndex);
+    //     console.log(pokedex.filter((e: any) => e.id !== id));
+    //     pokedex.slice(findIndex, 1);
+    //     pokedex.filter((e: any) => e.id !== id);
+    // }
+
+    useEffect(() => {
+
+    },[])
+
+    const handleRemovePokemonToPokemon = useCallback((i: number) => {
+        dispacth(RemovePokemonSuccess(i));
+    }, [dispacth]);
     return (
         <Grid>
             <Layout>
@@ -23,23 +35,23 @@ const Pokedex: React.FC = () => {
                 </Link>
 
                 <h1>My Pokédex</h1>
-                {pokedex.map((e: any, i: any) => (
+                {pokedex.map((e: any, i: number) => (
                     <>
                         <Card
-                            key={i}
+                            key={e.id}
                             style={{
                                 marginBottom: '2rem',
                                 backgroundColor: 'yellowgreen',
                                 borderRadius: '25px',
                             }}
                         >
-                            {/* <Button
+                            <Button
                                 type="dashed"
                                 danger
                                 onClick={() => handleRemovePokemonToPokemon(e.id)}
                             >
                                 Leave Pokemon
-                            </Button> */}
+                            </Button>
                             <p>#{e.id}</p>
                             <h1 style={{ textTransform: 'uppercase' }}>
                                 {e.name}
