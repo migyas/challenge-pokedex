@@ -59,7 +59,6 @@ const Pokedex: React.FC = () => {
                         </Card>
                     </>
                 ))}
-                {/*  */}
             </Layout>
         </Grid>
     );
